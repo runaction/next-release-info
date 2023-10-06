@@ -16,11 +16,8 @@ export const getNewReleaseTag = (
     if (tagFormat != "dated") {
       const tagParts = oldReleaseTag.split('.');
       const iter = Number(tagParts.pop()) + 1;
-      tagParts.push(iter);
-      return {
-        tag_name: tagParts.join('.'),
-        release_date: moment().format('YYYY-MM-DD'),
-      };
+      tagParts.push(iter.toString());
+      return tagParts.join('.');
     }
 
     // Format is v20231020
@@ -32,7 +29,7 @@ export const getNewReleaseTag = (
     const oldDay = dateMoment.format('DD');
 
     // Use iteration of the same-date release, like v20231020-1
-    const oldIter = (date.length > 8) ? Number(date.substring(9)) : -1;
+    const oldItr = (date.length > 8) ? Number(date.substring(9)) : -1;
 
     return generateNewTagFromOld({
       oldYear,
