@@ -1,7 +1,7 @@
 import { getInput } from '@actions/core';
 import { context, getOctokit } from '@actions/github';
 
-export const fetchLatestRelease = async () => {
+export const fetchLatestReleaseTag = async () => {
   try {
     const githubToken = getInput('github_token', { required: true });
     const octokit = getOctokit(githubToken);
@@ -10,10 +10,7 @@ export const fetchLatestRelease = async () => {
       owner,
       repo,
     });
-    return {
-      tag_name: response.data.tag_name,
-      created_at: response.data.created_at
-    };
+    return response.data.tag_name;
   } catch (error: any) {
     // No releases yet
     if (error?.response?.status === 404) {
