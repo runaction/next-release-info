@@ -28,19 +28,15 @@ export const generateNewTagFromOld = ({
 
   let newItr = oldItr + 1;
 
-  if (curDay !== oldDay) {
-    newItr = 1;
-    newDay = curDay;
+  // Reset iteration if the day changed since the last release
+  if (curDay !== oldDay || curMonth !== oldMonth || curYear !== oldYear) {
+    newItr = 0;
   }
 
-  if (curMonth !== oldMonth) {
-    newItr = 1;
-    newMonth = curMonth;
+  // Append iteration on the second and following releases on the same day
+  const newTag = `${tagPrefix}${newYear}${newMonth}${newDay}`;
+  if (newItr == 0) {
+    return newTag;
   }
-  
-  if (curYear !== oldYear) {
-    newItr = 1;
-    newYear = curYear;
-  }
-  return `${tagPrefix}${newYear}${newMonth}${newDay}.${newItr}`;
+  return `${newTag}-${newItr}`;
 };
