@@ -23,12 +23,15 @@ Sets an output variable named `release_tag` which contains the next release vers
 ```yaml
 name: Create Release
 
-on: push
+on:
+  push:
+    branches:
+      - release
 
 jobs:
-  deploy:
+  create_release:
+    name: Create a Release
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
@@ -41,7 +44,7 @@ jobs:
           tag_prefix: ''
 
       - name: Create Release
-        uses: actions/create-release@v1
+        uses: runaction/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
