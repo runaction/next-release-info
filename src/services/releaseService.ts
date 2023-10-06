@@ -1,8 +1,9 @@
 import { generateNewTagFromOld } from '../utils/release';
 import moment from 'moment';
 
-const getNewReleaseTag = (
+export const getNewReleaseTag = (
   tagPrefix: string,
+  tagFormat: string | null | undefined,
   oldReleaseTag: string | null | undefined
 ) => {
   if (oldReleaseTag && oldReleaseTag.startsWith(tagPrefix)) {
@@ -11,20 +12,27 @@ const getNewReleaseTag = (
     //   .split('.')
     //   .map((x) => x);
 
+    // Format is v1.0
+    if (tagFormat != "dated") {
+      const tagParts = oldReleaseTag.split('.');
+      const iter = Number(tagParts.pop()) + 1;
+      tagParts.push(iter);
+      return {
+        tag_name: tagParts.join('.'),
+        release_date: moment().format('YYYY-MM-DD'),
+      };
+    }
 
-    const date = oldReleaseTag
-      .substring(tagPrefix.length).substring(0, 8);
-
-    const dateMoment = moment(date, 'YYYY.MM.DD');
-
+    // Format is v20231020
+    const date = oldReleaseTag.substring(tagPrefix.length);
+    const dateMoment = moment(date, 'YYYYMMDD');
 
     const oldYear = dateMoment.format('YYYY');
     const oldMonth = dateMoment.format('MM');
     const oldDay = dateMoment.format('DD');
 
-    const oldItr = Number(oldReleaseTag
-      .substring(tagPrefix.length + 8).replace(".", ""));
-
+    // Use iteration of the same-date release, like v20231020-1
+    const oldIter = (date.length > 8) ? Number(date.substring(9)) : -1;
 
     return generateNewTagFromOld({
       oldYear,
@@ -43,5 +51,3 @@ const getNewReleaseTag = (
     tagPrefix,
   });
 };
-
-export default getNewReleaseTag;
