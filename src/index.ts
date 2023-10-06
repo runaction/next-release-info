@@ -1,7 +1,7 @@
 import { getInput, setFailed, setOutput } from '@actions/core';
+import moment from 'moment';
 import { fetchLatestReleaseTag } from './services/githubService';
 import { getNewReleaseTag } from './services/releaseService';
-import moment from 'moment';
 
 const generateNextReleaseTag = async (): Promise<void> => {
   try {

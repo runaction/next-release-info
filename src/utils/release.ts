@@ -17,14 +17,14 @@ export const generateNewTagFromOld = ({
   // const curMonth = curDate.getMonth() + 1;
   // const curYear = curDate.getFullYear();
   // const curDay = curDate.getDate();
-  
+
   const curMonth = moment().format('MM');
   const curYear = moment().format('YYYY');
-  const curDay =  moment().format('DD');
+  const curDay = moment().format('DD');
 
-  let newYear = curYear;
-  let newMonth = curMonth;
-  let newDay = curDay;
+  const newYear = curYear;
+  const newMonth = curMonth;
+  const newDay = curDay;
 
   let newItr = oldItr + 1;
 
@@ -35,7 +35,7 @@ export const generateNewTagFromOld = ({
 
   // Append iteration on the second and following releases on the same day
   const newTag = `${tagPrefix}${newYear}${newMonth}${newDay}`;
-  if (newItr == 0) {
+  if (newItr === 0) {
     return newTag;
   }
   return `${newTag}-${newItr}`;

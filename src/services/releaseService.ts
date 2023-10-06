@@ -1,5 +1,5 @@
-import { generateNewTagFromOld } from '../utils/release';
 import moment from 'moment';
+import { generateNewTagFromOld } from '../utils/release';
 
 export const getNewReleaseTag = (
   tagPrefix: string,
@@ -13,7 +13,7 @@ export const getNewReleaseTag = (
     //   .map((x) => x);
 
     // Format is v1.0
-    if (tagFormat != "dated") {
+    if (tagFormat !== 'dated') {
       const tagParts = oldReleaseTag.split('.');
       const iter = Number(tagParts.pop()) + 1;
       tagParts.push(iter.toString());
@@ -29,7 +29,7 @@ export const getNewReleaseTag = (
     const oldDay = dateMoment.format('DD');
 
     // Use iteration of the same-date release, like v20231020-1
-    const oldItr = (date.length > 8) ? Number(date.substring(9)) : -1;
+    const oldItr = date.length > 8 ? Number(date.substring(9)) : -1;
 
     return generateNewTagFromOld({
       oldYear,
@@ -41,9 +41,9 @@ export const getNewReleaseTag = (
   }
   // Handle no releases yet or prefix not matching last release
   return generateNewTagFromOld({
-    oldYear: "-1",
-    oldMonth: "-1",
-    oldDay: "-1",
+    oldYear: '-1',
+    oldMonth: '-1',
+    oldDay: '-1',
     oldItr: -1,
     tagPrefix,
   });
