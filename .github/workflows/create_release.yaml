@@ -1,0 +1,32 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  create_release:
+    name: Create a Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Generate release tag
+        id: next_release_info
+        uses: runaction/next-release-info@v1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_prefix: 'v'
+          tag_format: 'YYYY-MM-DD'
+      - name: Create a release
+        env:
+          RELEASE_TITLE: Release ${{ steps.next_release_info.outputs.release_tag }}
+          TAG_NAME: ${{ steps.next_release_info.outputs.release_tag }}
+        run: |
+          gh release create \
+            ${{ env.TAG_NAME }} \
+            --generate-notes \
+            --target release \
+            --title "${{ env.RELEASE_TITLE }}" \
+            --latest
