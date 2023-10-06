@@ -21,6 +21,7 @@ jobs:
           tag_format: 'YYYY-MM-DD'
       - name: Create a release
         env:
+          GH_TOKEN: ${{ github.token }}
           RELEASE_TITLE: Release ${{ steps.next_release_info.outputs.release_tag }}
           TAG_NAME: ${{ steps.next_release_info.outputs.release_tag }}
         run: |
