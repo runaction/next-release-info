@@ -18,7 +18,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 7
+          version: 8
 
       - name: Setting up Node.js
         uses: actions/setup-node@v3
@@ -33,6 +33,8 @@ jobs:
         id: generate_release_tag
         uses: ./
         with:
+          tag_prefix: 'v'
+          tag_format: 'dated'
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Print output
