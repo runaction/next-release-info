@@ -32,22 +32,26 @@ jobs:
   create_release:
     name: Create a Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
 
       - name: Generate release tag
-        id: generate_release_tag
-        uses: runaction/next-release-tag@v1.0
+        id: next_release_info
+        uses: runaction/next-release-info@v1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag_prefix: ''
+          tag_prefix: 'v'
+          tag_format: 'YYYY-MM-DD'
 
       - name: Create Release
         uses: runaction/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.generate_release_tag.outputs.release_tag }}
-          release_name: Release ${{ steps.generate_release_tag.outputs.release_tag }}
+          tag_name: ${{ steps.next_release_info.outputs.release_tag }}
+          release_name: Release ${{ steps.next_release_info.outputs.release_tag }}
+          generateReleaseNotes: true
 ```
